@@ -1,24 +1,28 @@
 ﻿
-    @model IEnumerable<SchoolDb1.Models.Teacher>
+@model IEnumerable<SchoolDb1.Models.Teacher>
 
 
-    @{
-        ViewBag.Title = "List";
+@{
+    ViewBag.Title = "List";
 
 
 }
 
-    <h2>List</h2>
-    <p>This page should be show all the teacher name</p>
 
-    <form action="/Teacher/List" method="GET">
-        <input type="text" name="SearchKey"/>
-        <input type="submit" value="Search"  />
-    </form>
+<h2>List of Teachers</h2>
+<nav>
+    <a class="navlink" style="color:green" ; href="/Teacher/New">New Teacher</a>
 
- @foreach (var teacher in Model)
-  {
+</nav>
 
-     <div><a href="/Teacher/Show/@teacher.TeacherId"> @teacher.TeacherFname @teacher.TeacherLname</a></div>
+<form action="/Teacher/List" method="GET">
+    <input type="text" name="SearchKey" />
+    <input type="submit" value="Search" />
+</form>
 
-  }
+@foreach (var teacher in Model)
+{
+
+    <div><a href="/Teacher/Show/@teacher.TeacherId"> @teacher.TeacherFname @teacher.TeacherLname </a></div>
+
+}

@@ -21,3 +21,32 @@ textarea {
     background-color: #777;
     border-color: #fff
 }
+
+/* Show page css*/
+nav {
+    color: red;
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+body{
+    background: #ffffff;
+}
+.navlink {
+    float: left;
+
+}
+nav a{
+    padding:5px 10px;
+    border:1px solid black;
+    border-radius:5px;
+    margin:10px;
+}
+.dellink{
+    float: left;
+}
+
+#containerShow{
+    width:80%;
+    margin: 0 auto;
+    margin-top:80px;
+}

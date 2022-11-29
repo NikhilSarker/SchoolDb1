@@ -37,9 +37,8 @@ namespace SchoolDb1.Controllers
             Debug.WriteLine("The search key is"+SearchKey);
             string query = "Select * from Teachers where lower(teacherfname) like lower(@key) " +
                 "or lower(teacherlname) like lower(@key) or " +
-                "lower(concat(teacherfname, ' ', teacherlname)) like lower(@key) or " +
-                "hiredate like (@key) or salary like(@key)";
-
+                "lower(concat(teacherfname, ' ', teacherlname)) like lower(@key) " ;
+            //"hiredate like (@key) or salary like(@key)"
             Debug.WriteLine("The query is" +query);
             //Establish a new command (query) for our database
             MySqlCommand cmd = Conn.CreateCommand();
@@ -69,17 +68,17 @@ namespace SchoolDb1.Controllers
                 int TeacherId = (int)ResultSet["teacherid"];
                 string TeacherFname = (string)ResultSet["teacherfname"];
                 string TeacherLname = (string)ResultSet["teacherlname"];
-                string EmploeeNumber = (string)ResultSet["employeenumber"];
-                DateTime HireDate = (DateTime) ResultSet["hiredate"];               
-                decimal Salary = Convert.ToDecimal(ResultSet["salary"]);
+               // string EmploeeNumber = (string)ResultSet["employeenumber"];
+                //DateTime HireDate = (DateTime) ResultSet["hiredate"];               
+                //decimal Salary = Convert.ToDecimal(ResultSet["salary"]);
 
                 Teacher NewTeacher = new Teacher();
                 NewTeacher.TeacherId = TeacherId;
                 NewTeacher.TeacherFname = TeacherFname;
                 NewTeacher.TeacherLname = TeacherLname;
-                NewTeacher.EmployeeNumber = (string)EmploeeNumber;
-                NewTeacher.HireDate = HireDate;
-                NewTeacher.Salary = Salary;
+               // NewTeacher.EmployeeNumber = (string)EmploeeNumber;
+                //NewTeacher.HireDate = HireDate;
+                //NewTeacher.Salary = Salary;
 
                 //Add the Author Name to the List
                 Teachers.Add(NewTeacher);
@@ -143,7 +142,61 @@ namespace SchoolDb1.Controllers
           return NewTeacher;
 
         }
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="id"></param>
+        /// /// POST: api/teacherdata/deleteteacher/3
+        [HttpPost]
 
+        public void DeleteTeacher(int id)
+        {
+
+            //Create an instance of a connection
+            MySqlConnection Conn = School.AccessDatabase();
+
+            //Open the connection between the web server and database
+            Conn.Open();
+
+            //Establish a new command (query) for our database
+            MySqlCommand cmd = Conn.CreateCommand();
+
+            //SQL QUERY
+            cmd.CommandText = "Delete from Teachers where teacherid = @id";
+            cmd.Parameters.AddWithValue("@id", id);
+            cmd.Prepare();
+            cmd.ExecuteNonQuery();
+            Conn.Close();
+        }
+
+        [HttpPost]
+        public void AddTeacher(Teacher NewTeacher)
+        {
+            //Create an instance of a connection
+            MySqlConnection Conn = School.AccessDatabase();
+
+            //Open the connection between the web server and database
+            Conn.Open();
+
+            //Establish a new command (query) for our database
+            MySqlCommand cmd = Conn.CreateCommand();
+
+            //SQL QUERY
+            cmd.CommandText = "Insert into Teachers (teacherfname, teacherlname, employeenumber, hiredate, salary) value(@TeacherFname, @TeacherLname, @EmployeeNumber, @HireDate, @Salary)";
+            cmd.Parameters.AddWithValue("@TeacherFname", NewTeacher.TeacherFname);
+            cmd.Parameters.AddWithValue("@TeacherLname", NewTeacher.TeacherLname);
+            cmd.Parameters.AddWithValue("@EmployeeNumber", NewTeacher.EmployeeNumber);
+            cmd.Parameters.AddWithValue("@HireDate", NewTeacher.HireDate);
+            cmd.Parameters.AddWithValue("@Salary", NewTeacher.Salary);
+            cmd.Prepare();
+            cmd.ExecuteNonQuery();
+            Conn.Close();
+
+           
+            
+
+
+        }
 
 
     }
