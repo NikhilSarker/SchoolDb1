@@ -6,10 +6,11 @@
 <h2>Show Teacher</h2>
 
 <div id="containerShow">
-<nav>
-    <a class="navlink" style="color:green"; href="/Teacher/List">Back to Teachers</a>
-    <a class="dellink" style="color:red;" href="/Teacher/DeleteConfirm/@Model.TeacherId">Delete</a>
-</nav>
+    <nav>
+        <a class="navlink" style="color:green" ; href="/Teacher/List">Back to Teachers</a>
+        <a class="dellink" style="color:red;" href="/Teacher/DeleteConfirm/@Model.TeacherId">Delete</a>
+        <a class="navlink" style="color:green;" href="/Teacher/Update/@Model.TeacherId">Update</a>
+    </nav>
 
 @Model.TeacherId @Model.TeacherFname @Model.TeacherLname @Model.EmployeeNumber @Model.HireDate @Model.Salary
 

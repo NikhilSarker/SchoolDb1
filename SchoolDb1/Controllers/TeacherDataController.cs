@@ -68,17 +68,17 @@ namespace SchoolDb1.Controllers
                 int TeacherId = (int)ResultSet["teacherid"];
                 string TeacherFname = (string)ResultSet["teacherfname"];
                 string TeacherLname = (string)ResultSet["teacherlname"];
-               // string EmploeeNumber = (string)ResultSet["employeenumber"];
-                //DateTime HireDate = (DateTime) ResultSet["hiredate"];               
-                //decimal Salary = Convert.ToDecimal(ResultSet["salary"]);
+               string EmployeeNumber = (string)ResultSet["employeenumber"];
+                DateTime HireDate = (DateTime) ResultSet["hiredate"];               
+                decimal Salary = Convert.ToDecimal(ResultSet["salary"]);
 
                 Teacher NewTeacher = new Teacher();
                 NewTeacher.TeacherId = TeacherId;
                 NewTeacher.TeacherFname = TeacherFname;
                 NewTeacher.TeacherLname = TeacherLname;
-               // NewTeacher.EmployeeNumber = (string)EmploeeNumber;
-                //NewTeacher.HireDate = HireDate;
-                //NewTeacher.Salary = Salary;
+                NewTeacher.EmployeeNumber = EmployeeNumber;
+                NewTeacher.HireDate = HireDate;
+                NewTeacher.Salary = Salary;
 
                 //Add the Author Name to the List
                 Teachers.Add(NewTeacher);
@@ -197,6 +197,36 @@ namespace SchoolDb1.Controllers
 
 
         }
+
+
+        public void UpdateTeacher(int id, [FromBody]Teacher TeacherInfo)
+        {
+
+            //Create an instance of a connection
+            MySqlConnection Conn = School.AccessDatabase();
+
+            //Open the connection between the web server and database
+            Conn.Open();
+
+            //Establish a new command (query) for our database
+            MySqlCommand cmd = Conn.CreateCommand();
+
+            //SQL QUERY
+            cmd.CommandText = "update teachers set teacherfname=@TeacherFname, teacherlname=@TeacherLname, employeenumber=@EmployeeNumber, hiredate=@HireDate, salary=@Salary where teacherid=@TeacherId";
+            cmd.Parameters.AddWithValue("@TeacherFname", TeacherInfo.TeacherFname);
+            cmd.Parameters.AddWithValue("@TeacherLname", TeacherInfo.TeacherLname);
+            cmd.Parameters.AddWithValue("@EmployeeNumber", TeacherInfo.EmployeeNumber);
+            cmd.Parameters.AddWithValue("@HireDate", TeacherInfo.HireDate);
+            cmd.Parameters.AddWithValue("@Salary", TeacherInfo.Salary);
+            cmd.Parameters.AddWithValue("@TeacherId",id);
+
+            cmd.Prepare();
+            cmd.ExecuteNonQuery();
+            Conn.Close();
+
+        }
+
+
 
 
     }
